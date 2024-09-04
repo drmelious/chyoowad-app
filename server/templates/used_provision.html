@@ -1,0 +1,12 @@
+{% extends "char_summary.html" %}
+{% block page %}
+
+{% if noProvisions %}
+<h3>You don't have any provisions left!</h3>
+{% else %}
+<h3>You eat one of you provisions.</h3>
+{% endif %}
+<form action="/return" method="POST">
+    <button type="submit" class="btn btn-secondary">Continue</button>
+</form>
+{% endblock %}

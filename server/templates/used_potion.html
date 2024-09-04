@@ -1,0 +1,24 @@
+{% extends "char_summary.html" %}
+{% block page %}
+<h3>Monster: {{ monster.name }}</h3>
+<div class="container text-center">
+  <div class="row">
+    <div class="col">
+      <h4>Skill: {{ monster.skill }}</h4>
+    </div>
+    <div class="col">
+      <h4>Stamina: {{ monster.stamina }}</h4>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+</div>
+{% if noPotions %}
+<h3>You don't have any potions left!</h3>
+{% else %}
+<h3>You used a potion!</h3>
+{% endif %}
+<form action="/combat" method="POST">
+    <button type="submit" class="btn btn-secondary">Attack!</button>
+</form>
+{% endblock %}
