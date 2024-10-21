@@ -1,0 +1,21 @@
+{
+    "book":"first_steps",
+    "book_name":"First Steps",
+    "pages":[
+        {
+            "page":0,
+            "title":"Introduction",
+            "text":"You wake up in a strange room with a door in front of you. You go through the door.",
+            "option":"Go through the door",
+            "next_page":1
+        },
+        {
+            "page":1,
+            "title":"Page 2",
+            "text":"Something smells bad.",
+            "option":"Go back",
+            "next_page":0
+        }
+    ]
+
+}
