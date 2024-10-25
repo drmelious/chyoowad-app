@@ -1,0 +1,9 @@
+{% extends "char_summary.html" %}
+{% block page %}
+<h3>You won</h3>
+<p>You defeated the {{ monster.name }}</p>
+<form action="/page" method="POST">
+    <input type="hidden" name="choice" id="0" value="0">
+    <button type="submit" class="btn btn-secondary">Continue</button>
+</form>
+{% endblock %}

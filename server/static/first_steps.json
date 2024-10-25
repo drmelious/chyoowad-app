@@ -4,17 +4,54 @@
     "pages":[
         {
             "page":0,
+            "type":"one_choice",
             "title":"Introduction",
-            "text":"You wake up in a strange room with a door in front of you. You go through the door.",
-            "option":"Go through the door",
-            "next_page":1
+            "text":[
+                "This is paragraph 1",
+                "This is paragraph 2"
+            ],
+            "options":[{
+                "text":"Proceed",
+                "next_page":1
+            }]
         },
         {
             "page":1,
+            "type":"one_choice",
+            "title":"Page 1",
+            "text":[
+                "This page has one choice."
+            ],
+            "options":[{
+                "text":"Proceed",
+                "next_page":2
+            }]
+        },
+        {
+            "page":2,
+            "type":"two_choices",
             "title":"Page 2",
-            "text":"Something smells bad.",
-            "option":"Go back",
-            "next_page":0
+            "text":[
+                "This page has two choices."
+            ],
+            "options":[
+                {"text":"Go Back",
+                "next_page":1},
+                {"text":"Proceed",
+                "next_page":3}
+            ]
+        },
+        {
+            "page":3,
+            "type":"combat_start",
+            "monster":
+                {"name":"Goblin",
+                "skill":3,
+                "health":4},
+            "options":[
+                {"text":"Attack",
+                "next_page":2}
+            ]
         }
     ]
 

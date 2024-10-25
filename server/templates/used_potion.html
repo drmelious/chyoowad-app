@@ -1,0 +1,12 @@
+{% extends "char_summary.html" %}
+{% block page %}
+{% if noPotions %}
+<h3>You don't have any potions left!</h3>
+{% else %}
+<h3>You used a potion!</h3>
+{% endif %}
+<form action="/page" method="POST">
+    <input type="hidden" name="choice" id="0" value="potion">
+    <button type="submit" class="btn btn-secondary">Continue</button>
+</form>
+{% endblock %}
