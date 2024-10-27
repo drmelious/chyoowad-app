@@ -9,12 +9,15 @@ currentPage = 0
 inCombat = False
 
 def openBook():
-    with open('server/static/first_steps.json') as data:
+    with open('server/books/first_steps.json') as data:
         book = json.load(data)
         return book
 
-@views.route('/', methods=["GET"])
+@views.route('/', methods=["GET", "POST"])
 def home():
+    global currentPage
+    currentPage = 0
+    myCharacter.resetChar()
     return render_template('char_name.html')
 
 @views.route('/stats', methods=["POST"])
@@ -75,15 +78,52 @@ def page():
             inCombat = True
             currentMonster.setMonster(monsterName, monsterSkill, monsterHealth)
             return render_template("combat_start.html", character=myCharacter, monster=currentMonster)
+        elif page["type"] == "test":
+            if page["stat"] == "skill":
+                result = myCharacter.skillTest()
+            elif page["stat"] == "luck":
+                result = myCharacter.luckTest()
+            return render_template("test.html", page=page, character=myCharacter, passed=result)
+        elif page["type"] == "stat_change":
+            stat = page["stat"]
+            change = page["change"]
+            amount = page["amount"]
+            if change == "+":
+                #I'm sure there is a better way to do this using stat directly
+                if stat == "health":
+                    myCharacter.health += amount
+                elif stat == "skill":
+                    myCharacter.skill += amount
+                elif stat == "luck":
+                    myCharacter.luck += amount
+                elif stat == "gold":
+                    myCharacter.gold += amount
+            elif change == "-":
+                if stat == "health":
+                    myCharacter.health -= amount
+                elif stat == "skill":
+                    myCharacter.skill -= amount
+                    if myCharacter.skill < 0:
+                        myCharacter.skill = 0
+                elif stat == "luck":
+                    myCharacter.luck -= amount
+                    if myCharacter.luck < 0:
+                        myCharacter.luck = 0
+                    #I don't intend taking gold off the character - treating it like a score
+            if myCharacter.health <= 0:
+                return render_template("you_died.html")
+            else:
+                return render_template("one_choice.html", page=page, character=myCharacter)       
         else:
-            return render_template("intro.html", page=page, character=myCharacter)
+            currentPage = 0
+            return render_template("char_name.html")
 
 @views.route('/combat', methods=["POST"])
 def combat():
     global inCombat
     #roll dice and work out who won this round
     playerAttack = diceroll.twoDsix() + myCharacter.skill
-    monsterAttack = diceroll.twoDsix() + currentMonster.skill #+ 20 make the monster win
+    monsterAttack = diceroll.twoDsix() + currentMonster.skill #+ 20 #make the monster win
     if playerAttack >= monsterAttack:
         currentMonster.health -= 2
         playerWin = True
@@ -92,7 +132,6 @@ def combat():
         playerWin = False
     #work out if someones dead and direct to appropriate page    
     if myCharacter.health <= 0:
-        myCharacter.resetChar()
         inCombat = False
         return render_template("you_died.html")
     elif currentMonster.health <= 0:

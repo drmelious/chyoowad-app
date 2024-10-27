@@ -1,0 +1,147 @@
+{
+    "book":"first_steps",
+    "book_name":"First Steps",
+    "pages":[
+        {
+            "page":0,
+            "type":"intro",
+            "title":"Introduction",
+            "text":[
+                "This book is effectively an array of pages with their own array of options.",
+                "I have made the introduction page 0 so the rest of the book is easier to reference.",
+                "Normally the app uses page type to determine how to display it, but in this instance it's not used and will always display the first item in the array as the intro.",
+                "Also this is how you do multiple paragraphs."
+            ],
+            "options":[{
+                "text":"Continue",
+                "next_page":1
+            }]
+        },
+        {
+            "page":1,
+            "type":"one_choice",
+            "title":"Page 1",
+            "text":[
+                "This type of page has one choice.",
+                "Even though there is only one option it is still declared as an array to be consistent on how the options are called."
+            ],
+            "options":[{
+                "text":"Continue",
+                "next_page":2
+            }]
+        },
+        {
+            "page":2,
+            "type":"two_choices",
+            "title":"Page 2",
+            "text":[
+                "This type of page has two choices.",
+                "Use next_page to direct to other pages in the array."
+            ],
+            "options":[
+                {"text":"Continue",
+                "next_page":3},
+                {"text":"Go Back",
+                "next_page":1}
+            ]
+        },
+        {
+            "page":3,
+            "type":"one_choice",
+            "title":"Page 3",
+            "text":[
+                "This page is to notify the player of a combat.",
+                "Like a Goblin jumps out and attacks you!"
+            ],
+            "options":[{
+                "text":"Continue",
+                "next_page":4
+            }]
+        },
+        {
+            "page":4,
+            "type":"combat_start",
+            "title":"Peter Smells",
+            "text":[
+                "The text or title aren't used on this type of page.",
+                "It is used to give the stats of the monster the player is fighting and the page to direct to afterwards."
+            ],
+            "monster":
+                {"name":"Goblin",
+                "skill":3,
+                "health":4},
+            "options":[
+                {"text":"Attack",
+                "next_page":5}
+            ]
+        },
+        {
+            "page":5,
+            "type":"one_choice",
+            "title":"Page 5",
+            "text":[
+                "This page is to notify the player of a skill check.",
+                "Like you have triggered a trap, are you able to dodge it?"
+            ],
+            "options":[{
+                "text":"Continue",
+                "next_page":6
+            }]
+        },
+        {
+            "page":6,
+            "type":"test",
+            "title":"Page 6",
+            "text":[
+                "This type of page is to instigate a test against the stat specified.",
+                "The first option will be where to direct the player on a success, the second a failure.",
+                "Like combat the title and text aren't actually used."
+            ],
+            "stat":"skill",
+            "options":[
+                {"text":"I Got Skillz",
+                "next_page":8},
+                {"text":"Oh No!",
+                "next_page":7}
+            ]
+        },
+        {
+            "page":7,
+            "type":"stat_change",
+            "title":"Page 7",
+            "text":[
+                "This type of page is to change a stat, like when you've failed a skill check, but really is using the one choice template.",
+                "It would say something like you lose two health points.",
+                "It then uses the following fields to determine the stat and amount to change."
+            ],
+            "stat":"health",
+            "change":"-",
+            "amount":2,
+            "options":[
+                {"text":"Continue",
+                "next_page":8}
+            ]
+        },
+        {
+            "page":8,
+            "type":"one_choice",
+            "title":"Page 8",
+            "text":[
+                "This page is to notify the player that the story has ended."
+            ],
+            "options":[
+                {"text":"Continue",
+                "next_page":9}
+            ]
+        },
+        {
+            "page":9,
+            "type":"end",
+            "title":"Page 9",
+            "text":[
+                "This page doesn't do anything it will just resolve to the home page"
+            ]
+        }
+    ]
+
+}

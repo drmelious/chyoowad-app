@@ -1,0 +1,18 @@
+{% extends "char_summary.html" %}
+{% block page %}
+{% if passed[0] %}
+<h3>You succeeded!</h3>
+<form action="/page" method="POST">
+  <p>You rolled {{ passed[1] }}</p>
+  <input type="hidden" name="choice" id="0" value="0">
+  <button type="submit" class="btn btn-secondary">{{ page.options[0].text }}</button>
+</form>
+{% else %}
+<h3>You failed!</h3>
+<form action="/page" method="POST">
+  <p>You rolled {{ passed[1] }}</p>
+  <input type="hidden" name="choice" id="1" value="1">
+  <button type="submit" class="btn btn-secondary">{{ page.options[1].text }}</button>
+</form>
+{% endif %}
+{% endblock %}
