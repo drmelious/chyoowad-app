@@ -9,12 +9,25 @@ currentPage = 0
 inCombat = False
 
 def openBook():
-    with open('server/books/first_steps.json') as data:
-        book = json.load(data)
-        return book
+    try:
+        with open('server/books/first_steps.json') as data:
+            book = json.load(data)
+            return book
+    except json.JSONDecodeError:
+        errText = "Bad syntax - try editing your json in a code editor like VS Code."
+        return render_template("json_error.html", text=errText)
+
+#pulled this out of page() for readability
+def loadNextPage(book, choice):
+    global currentPage
+    nextPage = book["pages"][currentPage]["options"][choice]["next_page"]
+    page = book["pages"][nextPage]
+    currentPage = nextPage
+    return page
 
 @views.route('/', methods=["GET", "POST"])
 def home():
+    #reset the current page and char for returning to this page
     global currentPage
     currentPage = 0
     myCharacter.resetChar()
@@ -43,8 +56,15 @@ def potion():
 @views.route('/intro', methods=["POST"])
 def intro():
     book = openBook()
-    page=book["pages"][0]
-    return render_template("intro.html", page=page, character=myCharacter) 
+    try:
+        page=book["pages"][0]
+        return render_template("intro.html", page=page, character=myCharacter)
+    except KeyError:
+        errText = "Cannot find a pages attribute in the book."
+        return render_template("json_error.html", text=errText)
+    except IndexError:
+        errText = "There are not any pages in the book."
+        return render_template("json_error.html", text=errText)
 
 #used for all other pages in book
 @views.route('/page', methods=["POST"])
@@ -54,18 +74,15 @@ def page():
     if inCombat:
         return render_template("combat_start.html", character=myCharacter, monster=currentMonster)
     else:
-        #open book and get the last choice made
         book = openBook()
         global currentPage
-        #got back to original page if coming from potion
+        #go back to original page if coming from potion
         if request.form['choice'] == "potion":
             page=book["pages"][currentPage]
         else:
+            #get choice from page they came from and find the page to go to
             choice = int(request.form['choice'])
-            #find the next page based on the choice made
-            nextPage = book["pages"][currentPage]["options"][choice]["next_page"]
-            page=book["pages"][nextPage]
-            currentPage = nextPage
+            page = loadNextPage(book, choice)
         #choose which template to use based on page type
         if page["type"] == "one_choice":
             return render_template("one_choice.html", page=page, character=myCharacter)
@@ -114,9 +131,13 @@ def page():
                 return render_template("you_died.html")
             else:
                 return render_template("one_choice.html", page=page, character=myCharacter)       
-        else:
+        elif page["type"] == "end":
             currentPage = 0
             return render_template("char_name.html")
+        else:
+            errText = "Unrecognised page type"
+            return render_template("json_error.html", text=errText)
+
 
 @views.route('/combat', methods=["POST"])
 def combat():
