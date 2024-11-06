@@ -9,13 +9,9 @@ currentPage = 0
 inCombat = False
 
 def openBook():
-    try:
-        with open('server/books/first_steps.json') as data:
-            book = json.load(data)
-            return book
-    except json.JSONDecodeError:
-        errText = "Bad syntax - try editing your json in a code editor like VS Code."
-        return render_template("json_error.html", text=errText)
+    with open('server/books/first_steps.json') as data:
+        book = json.load(data)
+    return book
 
 #pulled this out of page() for readability
 def loadNextPage(book, choice):
@@ -24,6 +20,14 @@ def loadNextPage(book, choice):
     page = book["pages"][nextPage]
     currentPage = nextPage
     return page
+
+#pulled this out of page() for readability
+def loadMonster(page):
+    global currentMonster
+    monsterName = page["monster"]["name"]
+    monsterSkill = page["monster"]["skill"]
+    monsterHealth = page["monster"]["health"]
+    currentMonster.setMonster(monsterName, monsterSkill, monsterHealth)
 
 @views.route('/', methods=["GET", "POST"])
 def home():
@@ -89,11 +93,8 @@ def page():
         elif page["type"] == "two_choices":
             return render_template("two_choices.html", page=page, character=myCharacter)
         elif page["type"] == "combat_start":
-            monsterName = page["monster"]["name"]
-            monsterSkill = page["monster"]["skill"]
-            monsterHealth = page["monster"]["health"]
+            loadMonster(page)
             inCombat = True
-            currentMonster.setMonster(monsterName, monsterSkill, monsterHealth)
             return render_template("combat_start.html", character=myCharacter, monster=currentMonster)
         elif page["type"] == "test":
             if page["stat"] == "skill":
