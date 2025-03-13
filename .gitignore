@@ -1,4 +1,5 @@
 virtual/
-virtual
 __pycache__/
-__pycache__
+.pytest_cache/
+.vscode/
+.venv/

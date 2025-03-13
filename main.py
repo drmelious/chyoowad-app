@@ -1,6 +1,7 @@
 from server import create_app
-from flask import json
+import os
 
+os.environ['CONFIG_TYPE'] = 'config.NotTestingConfig'
 app = create_app()
 
 if __name__ == '__main__':

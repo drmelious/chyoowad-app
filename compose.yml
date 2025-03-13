@@ -3,3 +3,8 @@ services:
     build: .
     ports:
       - "8000:5000"
+    volumes:
+      - chyoowad-vol:/app
+
+volumes:
+  chyoowad-vol:

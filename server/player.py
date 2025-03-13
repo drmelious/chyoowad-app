@@ -53,7 +53,20 @@ class Player:
         self.potions = session['player_potions']
         self.gold = session['player_gold']
 
+    def clearPlayer(self):
+        session.pop('player_name', default=None)
+        session.pop('player_skill', default=None)
+        session.pop('player_health', default=None)
+        session.pop('player_init_health', default=None)
+        session.pop('player_luck', default=None)
+        session.pop('player_potions', default=None)
+        session.pop('player_gold', default=None)
+
     def rollChar(self):
+        self.rollStats()
+        self.setPlayer()
+
+    def rollStats(self):
         skillRoll = diceroll.oneDsix() + 6
         self.skill = skillRoll
         healthRoll = diceroll.twoDsix() + 12
@@ -63,12 +76,9 @@ class Player:
         self.luck = luckRoll
         self.potions = 1
         self.gold = 0
-        self.setPlayer()
 
     def luckTest(self):
         roll = diceroll.twoDsix()
-        #test failing
-        #roll = 20
         if self.luck >= roll:
             return [True, roll]
         else: 
@@ -76,18 +86,7 @@ class Player:
         
     def skillTest(self):
         roll = diceroll.twoDsix()
-        #test failing
-        #roll = 20
         if self.skill >= roll:
             return [True, roll]
         else: 
             return [False, roll]
-
-    def clearPlayer(self):
-        session.pop('player_name', default=None)
-        session.pop('player_skill', default=None)
-        session.pop('player_health', default=None)
-        session.pop('player_init_health', default=None)
-        session.pop('player_luck', default=None)
-        session.pop('player_potions', default=None)
-        session.pop('player_gold', default=None)
