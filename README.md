@@ -1,5 +1,7 @@
 This is a project I'm using to consolidate learning on python and flask.
 
+It's a bit of a sandpit for trying out stuff tbh.
+
 Features to build:
 1. A actual book.
 2. More than one actual book.
