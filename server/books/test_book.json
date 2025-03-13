@@ -1,0 +1,104 @@
+{
+    "book":"test_book",
+    "book_name":"Test Book",
+    "pages":[
+        {
+            "page":0,
+            "type":"intro",
+            "title":"Introduction",
+            "text":[
+                "Introduction page."
+            ],
+            "options":[{
+                "text":"Continue",
+                "next_page":1
+            }]
+        },
+        {
+            "page":1,
+            "type":"one_choice",
+            "title":"Page 1",
+            "text":[
+                "One choice page."
+            ],
+            "options":[{
+                "text":"Continue",
+                "next_page":2
+            }]
+        },
+        {
+            "page":2,
+            "type":"two_choices",
+            "title":"Page 2",
+            "text":[
+                "Two choice page"
+            ],
+            "options":[
+                {"text":"Continue",
+                "next_page":3},
+                {"text":"Go Back",
+                "next_page":1}
+            ]
+        },
+        {
+            "page":3,
+            "type":"combat_start",
+            "monster":
+                {"name":"Goblin",
+                "skill":3,
+                "health":4},
+            "options":[
+                {"text":"Attack",
+                "next_page":4}
+            ]
+        },
+        {
+            "page":4,
+            "type":"test",
+            "title":"Page 4",
+            "stat":"skill",
+            "options":[
+                {"text":"I Got Skillz",
+                "next_page":6},
+                {"text":"Oh No!",
+                "next_page":5}
+            ]
+        },
+        {
+            "page":5,
+            "type":"stat_change",
+            "title":"Page 5",
+            "text":[
+                "Stat change page."
+            ],
+            "stat":"health",
+            "change":"-",
+            "amount":2,
+            "options":[
+                {"text":"Continue",
+                "next_page":6}
+            ]
+        },
+        {
+            "page":6,
+            "type":"broken_page",
+            "title":"Page 6",
+            "text":[
+                "This page is broken"
+            ],
+            "options":[
+                {"text":"Continue",
+                "next_page":7}
+            ]
+        },
+        {
+            "page":7,
+            "type":"end",
+            "title":"Page 7",
+            "text":[
+                "End page"
+            ]
+        }
+    ]
+
+}
